@@ -1,0 +1,64 @@
+# pylint: disable=missing-docstring
+
+amount_of_unsorted = 0
+
+def is_sorted(names):
+    global amount_of_unsorted
+    for i in range(len(names) - 1):
+        if names[i] > names[i + 1]:
+            amount_of_unsorted += 1
+    if amount_of_unsorted > 0:
+        return False
+    return True
+
+def is_number(s):
+    return s[0].isdigit()
+
+def compare(name1, name2):
+    if is_number(name1) and not is_number(name2):
+        return 1  # Numbers should come after names
+    elif not is_number(name1) and is_number(name2):
+        return -1  # Names should come before numbers
+    else:
+        return (name1 > name2) - (name1 < name2)
+
+def bubblesort(names):
+    for i in range(len(names) - 1):
+        for j in range(len(names) - 1):
+            if compare(names[j], names[j + 1]) > 0:
+                tmp = names[j]
+                names[j] = names[j + 1]
+                names[j + 1] = tmp
+    return names
+
+def read_names():
+    names = []
+    file = open("Sappar.txt", "r", encoding="utf-8")
+
+    for line in file:
+        names.append(line.strip())
+
+    file.close()
+    return names
+
+def print_lists(names, sorted_list):
+    print(f"{'Original:':<20} {'New:':<5}\n")
+    index = 0
+    for i, j in zip(names, sorted_list):
+        index += 1
+        print(f"{index}. {i:<20} {j:<10}")
+
+
+def main():
+    names = read_names()
+    print(is_sorted(names))
+
+    if is_sorted(names):
+        print("True")
+    else:
+        sorted_list = bubblesort(names.copy())
+        print(amount_of_unsorted)
+        print_lists(names, sorted_list)
+
+if __name__ == "__main__":
+    main()
