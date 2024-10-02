@@ -46,7 +46,11 @@ def print_lists(names, sorted_list):
     index = 0
     for i, j in zip(names, sorted_list):
         index += 1
-        print(f"{index}. {i:<20} {j:<10}")
+        if i != j:
+            print(f"\033[{41}m{index}. {i:<20} {j:<10}\033[0m")
+        else:
+            print(f"{index}. {i:<20} {j:<10}")
+
 
 
 def main():
